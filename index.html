@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX-EXAMPLE</title>
+</head>
+<body>
+    <h1>*AJAX EXAMPLE*</h1>
+    <div id="answer"> THE AJAX ANSWER IT`S GONNA LIVE HERE</div>
+    <!-- <script> METHOD 1 (onreadystatechange + readyState)
+        var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
+        ajax.open( 'GET', './ajax.php', true ); //always it should be true
+        ajax.onreadystatechange = () => { //when the method has ON is an event
+            if (ajax.readyState == 4) {
+                if (ajax.status == 200) {
+                    document.querySelector('#answer').innerHTML = ajax.responseText;
+                    console.log( 'changing state: ' + ajax.readyState );        
+                } else {
+                    document.querySelector('#answer').innerHTML = 'petition error!';    
+                }
+            } else {
+                document.querySelector('#answer').innerHTML = 'wait a moment...';
+            }
+        };
+        ajax.send(); //petition to excecute ajax.php and sending data
+    </script> -->
+    <script> //METHOD 2 (onload)
+        var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
+        ajax.open( 'POST', './ajax.php', true ); //always it should be true
+
+        /* the type of content that I`m sending to this request (content-type) 
+        must to have a FORM behavior (application/x-www-form-urlencoded) 
+        if there are not FILES sending (multi-part-form-data)*/
+        ajax.setRequestHeader( "content-type", "application/x-www-form-urlencoded" );
+        ajax.onload = () => { //same than onreadystatechange + readyState
+            if ( ajax.status == 200 ) {
+                document.querySelector( '#answer' ).innerHTML = ajax.responseText;
+                console.log( 'changing state: ' + ajax.readyState );        
+            } else {
+                document.querySelector('#answer').innerHTML = 'petition error!';    
+            }
+        }
+        /* ./ajax.php?letVar1=value1&letVar2=value2&letVar3=value3 */
+        ajax.send('letVar1=value1&letVar2=value2&letVar3=value3'); //petition to excecute ajax.php and sending data
+    </script>
+</body>
+</html>
