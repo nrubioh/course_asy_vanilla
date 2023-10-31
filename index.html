@@ -11,7 +11,10 @@
     <!-- METHOD 1 (onreadystatechange + readyState) -->
     <script>
         var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
-        ajax.open( 'GET', 'ajax.php', true ); //always it should be true
+        ajax.open( 'GET', 'ajax.php?letVar1=value1&letVar2=value2&letVar3=value3', true ); 
+        //to get data -> AJAX.OPEN URL
+        //to get data by POST -> AJAX.SEND('letVar1=value1&letVar2=value2&letVar3=value3')
+        //always it should be true
         ajax.onreadystatechange = () => { //when the method has ON is an event
             if (ajax.readyState == 4) { //request completed
                 if (ajax.status == 200) { //found document, answer OK!
