@@ -32,12 +32,12 @@
             };
             ajax.send(); //petition to excecute ajax.php and sending data
     </script> -->
-    <script> //METHOD 2 (onload)
-        var form = document.querySelector('form'); //1st search the form!
+    <script> //METHOD 3 .onsubmit + onload + inputs
+        var form = document.querySelector('form'); //get the form
             form.onsubmit = e => { // click shoot a fnc (event)
                 
                 console.log(e);
-                var user = document.querySelector( '[ name=user ]' ).value;
+                var user = document.querySelector( '[ name=user ]' ).value; //to get data from inputs
                 var pass = document.querySelector( '[ name=pass ]' ).value;
                 var birth_date = document.querySelector( '[ name=birth_date ]' ).value;
                 e.preventDefault(); //default submit action = send to "ajax.php"
