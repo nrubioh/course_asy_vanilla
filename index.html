@@ -32,23 +32,25 @@
             };
             ajax.send(); //petition to excecute ajax.php and sending data
     </script> -->
-    <script> //METHOD 3 .onsubmit + onload + inputs
+    <script> //METHOD 4 formData, no setRequestHeader (it`s already form)
         var form = document.querySelector('form'); //get the form
             form.onsubmit = e => { // click shoot a fnc (event)
-                
-                console.log(e);
-                var user = document.querySelector( '[ name=user ]' ).value; //to get data from inputs
+
+                var user = document.querySelector( '[ name=user ]' ).value; //getting data from inputs
                 var pass = document.querySelector( '[ name=pass ]' ).value;
                 var birth_date = document.querySelector( '[ name=birth_date ]' ).value;
-                e.preventDefault(); //default submit action = send to "ajax.php"
                 
+                var fd = new FormData();
+                    fd.append('user',user); //varName,valueName
+                    fd.append('pass',pass); //varName,valueName
+                    fd.append('birth_date',birth_date); //varName,valueName
+
+                console.log(e);
+                e.preventDefault(); //default submit action = send to "ajax.php"
+
                 var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
                     ajax.open( 'POST', './ajax.php', true ); //always it should be true
-                    ajax.setRequestHeader( "content-type", "application/x-www-form-urlencoded" );
-                        /* the "content-type" that I`m sending to this request
-                        must to have a FORM behavior (application/x-www-form-urlencoded) 
-                        if there are not FILES sending (multi-part-form-data)*/
-                    ajax.onload = (event) => { //same than onreadystatechange + readyState
+                    ajax.onload = () => { //same than onreadystatechange + readyState
                         if ( ajax.status == 200 ) {
                             document.querySelector( '#answer' ).innerHTML = ajax.responseText;
                             console.log( 'changing state: ' + ajax.readyState );        
@@ -56,8 +58,7 @@
                             document.querySelector('#answer').innerHTML = 'Wrong Request!' + ajax.responseText;
                         }
                     }
-                    ajax.send( 'Usuario='+user+'&Clave='+pass+'&Nacimiento='+ birth_date); 
-                    //petition to excecute ajax.php and sending data
+                    ajax.send(fd); //sending formData object...
             }
     </script>
 </body>
