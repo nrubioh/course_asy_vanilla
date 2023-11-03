@@ -7,42 +7,58 @@
 </head>
 <body>
     <h1>*AJAX EXAMPLE*</h1>
+    <form method="POST" action="ajax.php">
+        <div><input type="text" autocomplete="off" name="user" placeholder="userName" /></div>
+        <div><input type="text" autocomplete="off" name="pass" placeholder="passWord" /></div>
+        <input type="date" name="birth_date" min="1910-01-01" max="2004-12-31" placeholder="birthDate">
+        <div><input type="submit" value="record" /></div>
+    </form>
     <div id="answer"> THE AJAX ANSWER IT`S GONNA LIVE HERE</div>
     <!-- <script> //METHOD 1 (onreadystatechange + readyState) 
         var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
-        ajax.open( 'GET', 'ajax.php?letVar1=value1&letVar2=value2&letVar3=value3', true ); 
-        //to get data -> AJAX.OPEN URL
-        //to get data by POST -> AJAX.SEND('letVar1=value1&letVar2=value2&letVar3=value3')
-        //always it should be true
-        ajax.onreadystatechange = () => { //when the method has ON is an event
-            if (ajax.readyState == 4) { //request completed
-                if (ajax.status == 200) { //found document, answer OK!
-                    document.querySelector('#answer').innerHTML = ajax.responseText;
-                    console.log( 'changing state: ' + ajax.readyState );        
-                } else {
-                    document.querySelector('#answer').innerHTML = ajax.responseText + 'Wrong Request!';    
+            ajax.open( 'GET', 'ajax.php?letVar1=value1&letVar2=value2&letVar3=value3', true ); 
+            //to get data -> AJAX.OPEN URL
+            //to get data by POST -> AJAX.SEND('letVar1=value1&letVar2=value2&letVar3=value3')
+            //always it should be true
+            ajax.onreadystatechange = () => { //when the method has ON is an event
+                if (ajax.readyState == 4) { //request completed
+                    if (ajax.status == 200) { //found document, answer OK!
+                        document.querySelector('#answer').innerHTML = ajax.responseText;
+                        console.log( 'changing state: ' + ajax.readyState );        
+                    } else {
+                        document.querySelector('#answer').innerHTML = ajax.responseText + 'Wrong Request!';    
+                    }
                 }
-            }
-        };
-        ajax.send(); //petition to excecute ajax.php and sending data
+            };
+            ajax.send(); //petition to excecute ajax.php and sending data
     </script> -->
     <script> //METHOD 2 (onload)
-        var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
-        ajax.open( 'POST', './ajax.php', true ); //always it should be true
-        /* the "content-type" that I`m sending to this request
-        must to have a FORM behavior (application/x-www-form-urlencoded) 
-        if there are not FILES sending (multi-part-form-data)*/
-        ajax.setRequestHeader( "content-type", "application/x-www-form-urlencoded" );
-        ajax.onload = () => { //same than onreadystatechange + readyState
-            if ( ajax.status == 200 ) {
-                document.querySelector( '#answer' ).innerHTML = ajax.responseText;
-                console.log( 'changing state: ' + ajax.readyState );        
-            } else {
-                document.querySelector('#answer').innerHTML = 'Wrong Request!' + ajax.responseText;
+        var form = document.querySelector('form'); //1st search the form!
+            form.onsubmit = e => { // click shoot a fnc (event)
+                
+                console.log(e);
+                var user = document.querySelector( '[ name=user ]' ).value;
+                var pass = document.querySelector( '[ name=pass ]' ).value;
+                var birth_date = document.querySelector( '[ name=birth_date ]' ).value;
+                e.preventDefault(); //default submit action = send to "ajax.php"
+                
+                var ajax = new XMLHttpRequest(); //JS & XML(json) ASYN
+                    ajax.open( 'POST', './ajax.php', true ); //always it should be true
+                    ajax.setRequestHeader( "content-type", "application/x-www-form-urlencoded" );
+                        /* the "content-type" that I`m sending to this request
+                        must to have a FORM behavior (application/x-www-form-urlencoded) 
+                        if there are not FILES sending (multi-part-form-data)*/
+                    ajax.onload = (event) => { //same than onreadystatechange + readyState
+                        if ( ajax.status == 200 ) {
+                            document.querySelector( '#answer' ).innerHTML = ajax.responseText;
+                            console.log( 'changing state: ' + ajax.readyState );        
+                        } else {
+                            document.querySelector('#answer').innerHTML = 'Wrong Request!' + ajax.responseText;
+                        }
+                    }
+                    ajax.send( 'Usuario='+user+'&Clave='+pass+'&Nacimiento='+ birth_date); 
+                    //petition to excecute ajax.php and sending data
             }
-        }
-        ajax.send('letVar1=value1&letVar2=value2&letVar3=value3'); 
-        //petition to excecute ajax.php and sending data
     </script>
 </body>
 </html>
