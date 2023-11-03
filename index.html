@@ -32,18 +32,18 @@
             };
             ajax.send(); //petition to excecute ajax.php and sending data
     </script> -->
-    <script> //METHOD 4 formData, no setRequestHeader (it`s already form)
+    <script> //METHOD 5 formData('form')
         var form = document.querySelector('form'); //get the form
             form.onsubmit = e => { // click shoot a fnc (event)
 
-                var user = document.querySelector( '[ name=user ]' ).value; //getting data from inputs
+            /*  var user = document.querySelector( '[ name=user ]' ).value;
                 var pass = document.querySelector( '[ name=pass ]' ).value;
-                var birth_date = document.querySelector( '[ name=birth_date ]' ).value;
+                var birth_date = document.querySelector( '[ name=birth_date ]' ).value; */
                 
-                var fd = new FormData();
-                    fd.append('user',user); //varName,valueName
-                    fd.append('pass',pass); //varName,valueName
-                    fd.append('birth_date',birth_date); //varName,valueName
+                var fd = new FormData(form);
+                    /* fd.append('user',user);
+                    fd.append('pass',pass);
+                    fd.append('birth_date',birth_date);  */
 
                 console.log(e);
                 e.preventDefault(); //default submit action = send to "ajax.php"
