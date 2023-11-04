@@ -38,6 +38,7 @@
                             document.querySelector('#answer').innerHTML = 'Wrong Request!' + ajax.responseText;
                         }
                     buttonSubmit.disabled = false; 
+                    form.reset();
                     }
                 ajax.send(fd); //sending formData object...
             }
